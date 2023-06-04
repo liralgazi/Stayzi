@@ -2,6 +2,11 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from 'axios';
 
+function registerUser(ev){
+    ev.preventDefault();
+    axios.get('http://localhost:4000/test')
+}
+
 export default function RegisterPage()
 {
     const [name, setName] = useState('');
@@ -12,7 +17,7 @@ export default function RegisterPage()
         <div className="mt-4 grow flex items-center justify-around">
             <div className="mb-64">
                <h1 className="text-4xl text-center mb-4">Sign Up</h1>
-              <form action="" className="max-w-md mx-auto">
+              <form action="" className="max-w-md mx-auto" onSubmit={registerUser}>
               <input type="text" 
                     placeholder="name..." 
                     value={name}
