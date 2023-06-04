@@ -3,8 +3,8 @@ export default function Header()
 {
     return(
         <header className='flex justify-between'>
-          <img src="icons/stayzi-logo-5.png" width={100} height={60} />
-        <div className='center-items flex gap-2 border border-gray-300 rounded-full py-2 px-4 font-bold shadow-md shadow-gray-300'>
+          <img src="icons/stayzi-logo-7.png" className="w-50 h-20"/>
+        <div className='center-items flex gap-3 border border-gray-300 rounded-full py-5 px-3 font-bold shadow-md shadow-gray-300'>
           <div>Anywhere</div>
           <div className="border-l border-gray-300"></div>
           <div>Any week</div>
