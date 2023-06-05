@@ -54,7 +54,6 @@ app.post('/login', async(req,res)=>{
                 jsonwebtkn.sign({email: userDoc.email, id:userDoc._id},jsonwebtknSecret, {}, (err, token)=> {
                     if (err) throw err;
                     res.cookie('token', token).json('user validated');
-
                 });
             }
             else{
@@ -62,7 +61,7 @@ app.post('/login', async(req,res)=>{
                 }
         }
         else{
-            res.json('not found');
+            res.json('user not found');
         }
     }catch (e){}
 });
