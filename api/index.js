@@ -17,11 +17,11 @@ app.use(cors({
 
 //connecting to mongoDB 
 mongoose.connect(process.env.MONGO_URL);
-//console.log(mongoose.connection.name); 
 
 app.get('/test', async (req,res) => {
     res.json('test ok')
 });
+
 
 app.post('/signup', async (req,res) => { 
     const {name, email, password} = req.body;
@@ -33,7 +33,6 @@ app.post('/signup', async (req,res) => {
     //console.log(userDoc);
     res.json(userDoc);
 });
-
 
 
 app.listen(4000);
