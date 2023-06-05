@@ -2,11 +2,13 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
+const jsonwebtkn = require('jsonwebtoken');
 const User = require('./models/User.js');
 require('dotenv').config()
 const app = express();
 
 const bcryptSalt = bcrypt.genSaltSync(10);
+const jsonwebtknSecret = 'jvnfjkdxnvjk56gnfh4ffh5l'
 
 app.use(express.json()); 
 app.use(cors({
@@ -46,13 +48,18 @@ app.post('/login', async(req,res)=>{
         const userDoc = await User.findOne({email:email})
         if (userDoc){
             //validate password
-            const passwordOK = bcrypt.compareSync(password, userDoc.password);
-            if (passwordOK){
-                res.json('user validated');
+            const validatedPass = bcrypt.compareSync(password, userDoc.password);
+            if (validatedPass){
+                //create json web token
+                jsonwebtkn.sign({email: userDoc.email, id:userDoc._id},jsonwebtknSecret, {}, (err, token)=> {
+                    if (err) throw err;
+                    res.cookie('token', token).json('user validated');
+
+                });
             }
             else{
-                res.status(422).json('password not found');
-                        }
+                res.status(422).json('incorrect password');
+                }
         }
         else{
             res.json('not found');
