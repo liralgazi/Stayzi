@@ -22,19 +22,44 @@ app.get('/test', async (req,res) => {
     res.json('test ok')
 });
 
-
+//registeration 
 app.post('/signup',  async (req,res) => { 
     const {name, email, password} = req.body;
+    try{
     const userDoc  = await User.create({
         name,
         email,
         //encrypt the password
         password: bcrypt.hashSync(password, bcryptSalt) ,
-    //console.log(userDoc);
    });
     res.json(userDoc);
-   
+    //if there is duplication 
+} catch(e) {res.status(422).json(e);}
 });
+
+
+//login
+app.post('/login', async(req,res)=>{
+    try{
+        const {email, password} = req.body;
+        //search for the email in DB
+        const userDoc = await User.findOne({email:email})
+        if (userDoc){
+            //validate password
+            const passwordOK = bcrypt.compareSync(password, userDoc.password);
+            if (passwordOK){
+                res.json('user validated');
+            }
+            else{
+                res.status(422).json('password not found');
+                        }
+        }
+        else{
+            res.json('not found');
+        }
+    }catch (e){}
+});
+
 
 
 app.listen(4000);
