@@ -3,6 +3,8 @@
     "tailwindcss": "^3.3.2"
   },
   "dependencies": {
+    "bcrypt": "^5.1.0",
+    "bcryptjs": "^2.4.3",
     "cores": "^0.8.5",
     "cors": "^2.8.5",
     "dotenv": "^16.1.4",
