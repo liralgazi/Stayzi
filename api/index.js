@@ -25,6 +25,7 @@ app.get('/test', async (req,res) => {
 
 app.post('/signup', async (req,res) => { 
     const {name, email, password} = req.body;
+    try{
     const userDoc = await User.create({
         name,
         email,
@@ -32,6 +33,7 @@ app.post('/signup', async (req,res) => {
     });
     //console.log(userDoc);
     res.json(userDoc);
+}catch (e){res.status(422).json(e);}
 });
 
 
