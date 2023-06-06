@@ -17,8 +17,11 @@ app.use(cors({
     
 }));
 
+try{
 //connecting to mongoDB 
 mongoose.connect(process.env.MONGO_URL);
+console.log('connected to db');
+}catch (e) {console.log('connection to DB failed', e);}
 
 app.get('/test', async (req,res) => {
     res.json('test ok')
@@ -35,6 +38,7 @@ app.post('/signup',  async (req,res) => {
         password: bcrypt.hashSync(password, bcryptSalt) ,
    });
     res.json(userDoc);
+    console.log('user registered successfully!');
     //if there is duplication 
 } catch(e) {res.status(422).json(e);}
 });
@@ -53,17 +57,22 @@ app.post('/login', async(req,res)=>{
                 //create json web token
                 jsonwebtkn.sign({email: userDoc.email, id:userDoc._id},jsonwebtknSecret, {}, (err, token)=> {
                     if (err) throw err;
-                    res.cookie('token', token).json('user validated');
+                    res.cookie('token', token).json(userDoc);
+                    console.log('user logged in successfully!');
                 });
             }
             else{
                 res.status(422).json('incorrect password');
+                console.log('inccorect password');
                 }
         }
         else{
             res.json('user not found');
+            console.log('user not found');
         }
-    }catch (e){}
+    }catch (e){
+        console.log('error - could not log in');
+    }
 });
 
 
