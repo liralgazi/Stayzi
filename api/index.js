@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jsonwebtkn = require('jsonwebtoken');
 const User = require('./models/User.js');
+const CookieParser = require('cookie-parser');
+const cookieParser = require('cookie-parser');
 require('dotenv').config()
 const app = express();
 
@@ -11,6 +13,7 @@ const bcryptSalt = bcrypt.genSaltSync(10);
 const jsonwebtknSecret = 'jvnfjkdxnvjk56gnfh4ffh5l'
 
 app.use(express.json()); 
+app.use(cookieParser());
 app.use(cors({
     credentials: true,
     origin: '*',
@@ -76,7 +79,9 @@ app.post('/login', async(req,res)=>{
 });
 
 app.get('/profile', (req,res)=> {
-    res.json('user profile info');
+    const {token} = req.cookies;
+    //TO DO: check why the cookies doesnt transfer from the user 
+    res.json({token});
 });
 
 
